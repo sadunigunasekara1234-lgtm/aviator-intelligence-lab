@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#080d18">
+
+<title>Aviator Intelligence Lab</title>
+
+<style>
+
+:root {
+
+ --bg:#080d18;--panel:#111b2b;--line:#26354b;
+
+ --gold:#d6ad61;--text:#edf2fa;--muted:#8d9bb0;
+
+ --red:#ff596b;--green:#42d69a;
+
+}
+
+*{box-sizing:border-box}
+
+body{margin:0;background:var(--bg);color:var(--text);
+
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+
+header{padding:22px 18px;background:#0d1524;
+
+ border-bottom:1px solid var(--line)}
+
+.brand{color:var(--gold);font-size:12px;letter-spacing:3px}
+
+h1{font-size:23px;margin:8px 0}
+
+.sub{color:var(--muted);font-size:12px}
+
+nav{display:flex;gap:8px;overflow:auto;padding:12px;
+
+ background:#0b1220;position:sticky;top:0;z-index:5}
+
+nav button{white-space:nowrap;background:#172338;color:#cbd5e1;
+
+ border:1px solid var(--line);padding:10px 13px;border-radius:9px}
+
+nav button.active{background:var(--gold);color:#111}
+
+main{max-width:900px;margin:auto;padding:16px}
+
+.panel{background:var(--panel);border:1px solid var(--line);
+
+ border-radius:14px;padding:17px;margin-bottom:15px}
+
+h2{font-size:17px;margin:0 0 13px}
+
+h3{font-size:14px;color:var(--gold)}
+
+p{color:var(--muted);font-size:13px;line-height:1.6}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+
+.stat{background:#0c1524;padding:14px;border-radius:10px}
+
+.stat strong{display:block;font-size:23px;color:var(--gold)}
+
+.stat span{font-size:11px;color:var(--muted)}
+
+input,textarea{width:100%;padding:13px;margin:7px 0 12px;
+
+ background:#080f1d;color:white;border:1px solid var(--line);
+
+ border-radius:9px;font:inherit}
+
+textarea{min-height:110px;resize:vertical}
+
+button.action{background:var(--gold);color:#10141c;
+
+ border:0;padding:12px 16px;border-radius:9px;
+
+ font-weight:700;cursor:pointer}
+
+button.secondary{background:#24344c;color:white;
+
+ border:1px solid var(--line);padding:11px;border-radius:9px}
+
+.result{overflow-wrap:anywhere;background:#080f1d;
+
+ border:1px solid var(--line);padding:12px;border-radius:9px;
+
+ font-size:12px;line-height:1.7}
+
+.tag{color:var(--green);font-size:11px}
+
+.warn{color:#ffc56d}
+
+.module{display:none}
+
+.module.active{display:block}
+
+.mission{padding:13px 0;border-bottom:1px solid var(--line)}
+
+footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
+
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}
+
+ h1{font-size:20px}main{padding:11px}}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+ <div class="brand">BANDU RESEARCH PROJECT</div>
+
+ <h1>AVIATOR INTELLIGENCE LAB</h1>
+
+ <div class="sub">CYBERSECURITY • HASH ANALYSIS • STATISTICAL RESEARCH</div>
+
+</header>
+
+<nav>
+
+ <button class="active" data-tab="home">Dashboard</button>
+
+ <button data-tab="hash">Hash Lab</button>
+
+ <button data-tab="fair">Fairness Lab</button>
+
+ <button data-tab="stats">Statistics</button>
+
+ <button data-tab="missions">Missions</button>
+
+</nav>
+
+<main>
+
+<section id="home" class="module active">
+
+ <div class="panel">
+
+  <div class="tag">● SYSTEM ONLINE</div>
+
+  <h2>Intelligence Overview</h2>
+
+  <p>Welcome to your personal Aviator research environment.</p>
+
+  <div class="grid">
+
+   <div class="stat"><strong>02</strong><span>HASH ALGORITHMS</span></div>
+
+   <div class="stat"><strong>03</strong><span>RESEARCH LABS</span></div>
+
+   <div class="stat"><strong id="roundCount">0</strong><span>DATA POINTS</span></div>
+
+   <div class="stat"><strong id="missionCount">0/4</strong><span>MISSIONS COMPLETE</span></div>
+
+  </div>
+
+ </div>
+
+ <div class="panel">
+
+  <h2>Research Notice</h2>
+
+  <p>This platform verifies cryptographic data and studies historical results.
+
+  It cannot reliably predict future Aviator multipliers. Past outcomes do not
+
+  establish the next outcome.</p>
+
+ </div>
+
+ <div class="panel">
+
+  <h2>Quick Access</h2>
+
+  <button class="action" onclick="showTab('hash')">Open Hash Lab →</button>
+
+  <button class="secondary" onclick="showTab('stats')">Open Statistics →</button>
+
+ </div>
+
+</section>
+
+<section id="hash" class="module">
+
+ <div class="panel">
+
+  <h2>01 / Cryptographic Hash Lab</h2>
+
+  <p>Enter text to calculate its SHA-256 or SHA-512 digest.</p>
+
+  <textarea id="hashInput" placeholder="Enter seed or text here..."></textarea>
+
+  <div class="grid">
+
+   <button class="action" onclick="makeHash('SHA-256')">Calculate SHA-256</button>
+
+   <button class="action" onclick="makeHash('SHA-512')">Calculate SHA-512</button>
+
+  </div>
+
+  <h3>Hash Result</h3>
+
+  <div class="result" id="hashResult">Waiting for input...</div>
+
+  <button class="secondary" onclick="copyHash()">Copy result</button>
+
+  <p class="warn">A hash is a one-way digest, not a direct prediction of a future round.</p>
+
+ </div>
+
+</section>
+
+<section id="fair" class="module">
+
+ <div class="panel">
+
+  <h2>02 / Provably Fair Research</h2>
+
+  <p>Basic hash commitment check. Enter the original seed and its published
+
+  SHA-256 commitment to check whether they match.</p>
+
+  <label>Original server seed</label>
+
+  <input id="serverSeed" placeholder="Enter revealed server seed">
+
+  <label>Published SHA-256 commitment</label>
+
+  <input id="commitHash" placeholder="Paste published hash">
+
+  <button class="action" onclick="verifyCommit()">Verify commitment</button>
+
+  <div class="result" id="fairResult">Awaiting verification...</div>
+
+  <p class="warn">This checks a SHA-256 commitment only. It does not verify
+
+  the complete game algorithm or prove a multiplier without the platform's
+
+  documented rules, client seed and nonce.</p>
+
+ </div>
+
+</section>
+
+<section id="stats" class="module">
+
+ <div class="panel">
+
+  <h2>03 / Historical Statistics</h2>
+
+  <p>Enter historical multipliers separated by commas. Example: 1.20, 2.50, 1.05, 4.10</p>
+
+  <textarea id="history" placeholder="1.20, 2.50, 1.05, 4.10"></textarea>
+
+  <button class="action" onclick="analyze()">Analyze Data</button>
+
+  <button class="secondary" onclick="clearHistory()">Clear</button>
+
+ </div>
+
+ <div class="panel">
+
+  <h2>Analysis Results</h2>
+
+  <div class="grid">
+
+   <div class="stat"><strong id="total">0</strong><span>ROUNDS</span></div>
+
+   <div class="stat"><strong id="average">—</strong><span>AVERAGE</span></div>
+
+   <div class="stat"><strong id="median">—</strong><span>MEDIAN</span></div>
+
+   <div class="stat"><strong id="highRate">—</strong><span>2x OR ABOVE</span></div>
+
+  </div>
+
+  <div class="result" id="statsResult">No data analyzed.</div>
+
+ </div>
+
+</section>
+
+<section id="missions" class="module">
+
+ <div class="panel">
+
+  <h2>04 / Training Missions</h2>
+
+  <p>Complete each research task to track your learning progress.</p>
+
+  <div id="missionList"></div>
+
+ </div>
+
+</section>
+
+</main>
+
+<footer>
+
+AVIATOR INTELLIGENCE LAB • EDUCATIONAL RESEARCH ONLY<br>
+
+No guaranteed predictions • No betting signals
+
+</footer>
+
+<script>
+
+const $ = id => document.getElementById(id);
+
+let lastHash = "";
+
+function showTab(id){
+
+ document.querySelectorAll(".module").forEach(x=>x.classList.remove("active"));
+
+ document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+
+ $(id).classList.add("active");
+
+ document.querySelector('[data-tab="'+id+'"]').classList.add("active");
+
+}
+
+document.querySelectorAll("nav button").forEach(btn=>{
+
+ btn.addEventListener("click",()=>showTab(btn.dataset.tab));
+
+});
+
+async function digest(text,algorithm){
+
+ if(!window.crypto || !crypto.subtle) {
+
+  throw new Error("Secure browser context required. Open the GitHub Pages HTTPS website.");
+
+ }
+
+ const data=new TextEncoder().encode(text);
+
+ const hash=await crypto.subtle.digest(algorithm,data);
+
+ return Array.from(new Uint8Array(hash))
+
+ .map(b=>b.toString(16).padStart(2,"0")).join("");
+
+}
+
+async function makeHash(algorithm){
+
+ const value=$("hashInput").value;
+
+ if(!value){$("hashResult").textContent="Enter text first.";return;}
+
+ try{
+
+  lastHash=await digest(value,algorithm);
+
+  $("hashResult").textContent=algorithm+": "+lastHash;
+
+ }catch(e){$("hashResult").textContent=e.message;}
+
+}
+
+function copyHash(){
+
+ if(!lastHash)return alert("Calculate a hash first.");
+
+ navigator.clipboard.writeText(lastHash)
+
+ .then(()=>alert("Hash copied!"))
+
+ .catch(()=>alert("Copy not available in this browser."));
+
+}
+
+async function verifyCommit(){
+
+ const seed=$("serverSeed").value;
+
+ const expected=$("commitHash").value.trim().toLowerCase();
+
+ if(!seed || !expected){
+
+  $("fairResult").textContent="Enter both values.";
+
+  return;
+
+ }
+
+ try{
+
+  const actual=await digest(seed,"SHA-256");
+
+  const ok=actual===expected;
+
+  $("fairResult").textContent=
+
+   (ok?"MATCH — commitment verified.":"NO MATCH — commitment differs.")+
+
+   "\nCalculated: "+actual;
+
+  $("fairResult").style.color=ok?"#42d69a":"#ff596b";
+
+ }catch(e){$("fairResult").textContent=e.message;}
+
+}
+
+function analyze(){
+
+ const raw=$("history").value.trim();
+
+ const values=raw.split(/[\s,;]+/).filter(Boolean).map(Number);
+
+ if(!values.length || values.some(v=>!Number.isFinite(v)||v<1)){
+
+  $("statsResult").textContent="Enter valid multipliers of 1.00 or higher.";
+
+  return;
+
+ }
+
+ const sorted=[...values].sort((a,b)=>a-b);
+
+ const sum=values.reduce((a,b)=>a+b,0);
+
+ const median=sorted.length%2
+
+ ?sorted[Math.floor(sorted.length/2)]
+
+ :(sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+
+ const high=values.filter(v=>v>=2).length;
+
+ $("total").textContent=values.length;
+
+ $("average").textContent=(sum/values.length).toFixed(2)+"x";
+
+ $("median").textContent=median.toFixed(2)+"x";
+
+ $("highRate").textContent=(high/values.length*100).toFixed(1)+"%";
+
+ $("statsResult").textContent=
+
+ "Minimum: "+sorted[0].toFixed(2)+"x\n"+
+
+ "Maximum: "+sorted[sorted.length-1].toFixed(2)+"x\n"+
+
+ "At or above 2x: "+high+" of "+values.length+
+
+ "\nThese describe only the supplied sample, not future rounds.";
+
+ localStorage.setItem("aviatorHistory",raw);
+
+ $("roundCount").textContent=values.length;
+
+}
+
+function clearHistory(){
+
+ $("history").value="";
+
+ localStorage.removeItem("aviatorHistory");
+
+ $("total").textContent="0";
+
+ $("average").textContent="—";
+
+ $("median").textContent="—";
+
+ $("highRate").textContent="—";
+
+ $("statsResult").textContent="No data analyzed.";
+
+ $("roundCount").textContent="0";
+
+}
+
+const missions=[
+
+ "Calculate your first SHA-256 hash",
+
+ "Calculate your first SHA-512 hash",
+
+ "Verify a SHA-256 seed commitment",
+
+ "Analyze a historical multiplier sample"
+
+];
+
+function renderMissions(){
+
+ const completed=JSON.parse(localStorage.getItem("aviatorMissions")||"[]");
+
+ $("missionList").innerHTML=missions.map((m,i)=>
+
+ '<div class="mission"><label><input type="checkbox" style="width:auto;margin-right:8px" data-mission="'+i+'" '+(completed.includes(i)?"checked":"")+'> '+m+'</label></div>'
+
+ ).join("");
+
+ $("missionCount").textContent=completed.length+"/4";
+
+ document.querySelectorAll("[data-mission]").forEach(box=>{
+
+  box.addEventListener("change",()=>{
+
+   let done=JSON.parse(localStorage.getItem("aviatorMissions")||"[]");
+
+   const id=Number(box.dataset.mission);
+
+   done=box.checked?[...new Set([...done,id])]:done.filter(x=>x!==id);
+
+   localStorage.setItem("aviatorMissions",JSON.stringify(done));
+
+   $("missionCount").textContent=done.length+"/4";
+
+  });
+
+ });
+
+}
+
+$("history").value=localStorage.getItem("aviatorHistory")||"";
+
+renderMissions();
+
+</script>
+
+</body>
+
+</html>
